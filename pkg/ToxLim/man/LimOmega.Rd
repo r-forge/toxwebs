@@ -6,7 +6,7 @@
 \description{
   Solves a LIMOMEGA model
 
-  patatie en patata
+  Test
 }
 
 \usage{
