@@ -6,10 +6,14 @@
 }
 
 \description{
-  Linear inverse model specification for the Barents Sea
+  Linear inverse model specification for the Southern Barents Sea
 
-  Hier wat meer uitleg  over dit experiment, maar niet te veel zodat
-  "ze" er niet mee weglopen...
+  Food web compartments for the area are dissolved organic carbon (DOC), 
+  detritus, bacteria, heterotrophic flagellates and ciliates, 
+  phytoplankton (pico- and nanoplankton, diatoms and Phaeocystis sp.), 
+  mesozooplankton (copepods), macrozooplankton (krill and chaetognaths), 
+  cod (Gadus morhua), herring (Clupea harengus) and capelin (Mallotus villosus).
+  Adult cod (> 3 yrs) and young cod (< 3 yrs) were considered as two different populations.  
 }
 
 \usage{
@@ -46,7 +50,7 @@ Plotranges(LIMbarents,lab.cex=0.7,xlab="mgC/m2/d",
 # ranges of variables
 Plotranges(LIMbarents,type="V",lab.cex=0.7,xlab="mgC/m2/d",
    main="variables")
-mtext(outer=TRUE,"Barents Sea food web",side=3,line=-1,cex=1.5)
+mtext(outer=TRUE,"Southern Barents Sea food web",side=3,line=-1,cex=1.5)
 par(mfrow=pm)
 
 }
@@ -54,8 +58,8 @@ par(mfrow=pm)
 \references{
 
   De Laender, F., Van Oevelen, D., Middelburg, J.J. and Soetaert, K., 2009.
-  MEPS VERHAAL
-
+  Carbon transfer in systems dominated by the herbivorous web and in systems 
+  dominated by the microbial loop: a food web reconstruction. In revision.
 }
 
 \seealso{

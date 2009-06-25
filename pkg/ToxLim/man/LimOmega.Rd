@@ -6,7 +6,10 @@
 \description{
   Solves a LIMOMEGA model
 
-  Test
+  Uncertainty ranges of specific ingestion and production rates, and of assimilation efficiency are estimated with a LIM, 
+  and used to set Kup,food and Kout+dil in OMEGA, as explained in detail in De Laender et al (2009). 
+  If the LIM is solved using the Markow Chain Monte Carlo approach developed by Van den Meersche et al (2009), 
+  uncertainty ranges for Kup,food and Kout+dil and thus for the internal concentrations can be estimated.
 }
 
 \usage{
@@ -209,6 +212,10 @@ par(mfrow=pm)
   power of size. 1. Rate constants and equilibrium ratios for
   accumulation of organic substances related to octanol-water
   partition ratio and species weight. Environ. Toxicol. Chem. 20, 1399 - 1420.
+  
+  Van den Meersche, K., Soetaert, K., Van Oevelen, D., 2009. 
+  xsample(): An R Function for Sampling Linear Inverse Problems.
+  J. Stat. Soft. 30, 1-15. 
 }
 
 \details{

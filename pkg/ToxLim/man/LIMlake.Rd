@@ -9,12 +9,17 @@
 
 \description{
   Linear inverse model specification for two freshwater lake enclosures
-  (Lac Croche, Canada), used as demonstration example in Laender et al., 2009.
+  (Lac Croche, Canada), used as demonstration example in De Laender et al., 2009.
 
   It comprises the enclosure without \code{LIMlake} and with \code{LIMlakeFish}
   fish.
 
-  Hier wat meer uitleg  over dit experiment...
+  Experimental freshwater lake enclosures (Lac Croche, Canada) were spiked with 8 hydrophobic organic compounds (HOCs) 
+  during a 107 day period. Prior to exposure, food web compositions in the enclosures were manipulated by additions 
+  of planktivorous fish and/or nutrients giving four types of food webs: planktonic, planktonic with nutrient addition, 
+  planktonic with planktivorous fish, and planktonic with planktivorous fish and nutrient additions. 
+  The trophic links in the mass-balances of each LIM are identical, except that the fish compartment is only present 
+  in F and FN. 
 }
 
 \usage{
