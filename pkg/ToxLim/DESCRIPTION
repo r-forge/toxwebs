@@ -5,6 +5,6 @@ Author: Frederik De Laender <f.delaender@nioo.knaw.nl> Karline Soetaert <k.soeta
 Maintainer: Frederik De Laender <f.delaender@nioo.knaw.nl>
 Depends: R (>= 2.01), LIM
 Description: Functions that predict internal concentrations of hydrophobic chemicals in aquatic organisms.
-License: GPL
+License: GPL (>= 2)
 LazyData: yes
 
