@@ -32,7 +32,7 @@ LIMbarents
 }
 
 \author{
-  Frederik de Laender <f.delaender@nioo.knaw.nl>
+  Frederik de Laender <frederik.delaender@ugent.be>
 
   Karline Soetaert <k.soetaert@nioo.knaw.nl>
 
@@ -57,11 +57,21 @@ par(mfrow=pm)
 
 \references{
 
-  De Laender, F., Van Oevelen, D., Middelburg, J.J. and Soetaert, K., 2009.
-  Carbon transfer in systems dominated by the herbivorous web and in systems 
-  dominated by the microbial loop: a food web reconstruction. In revision.
+  De Laender, F., Van Oevelen, D., Middelburg, J.J. and Soetaert, K., 2010. 
+  Carbon transfer in herbivore- and microbial loop-dominated pelagic 
+  food webs in the southern Barents Sea during spring and summer. 
+  Marine Ecology Progress Series 398: 93 -- 107.
+
+  De Laender, F., Van Oevelen, D., Frantzen, S., Middelburg, J.J. and Soetaert, K. 
+  Seasonal PCB Bioaccumulation in an Arctic Marine Ecosystem: A
+  Model Analysis Incorporating Lipid Dynamics, Food-Web Productivity
+  and Migration. Environ. Sci. Technol. 2010, 44, 356 -- 361.
 }
 
+\note{
+An application of \code{LIMbarents} with \link{LimOmega} can be found in 
+De Laender et al. (2010).
+}
 \seealso{
   \code{\link{LIMlake}},  \code{\link{LIMlakeFish}}
 }

@@ -1,0 +1,19 @@
+citHeader("To cite package 'ToxLim' in publications use:")
+
+citEntry(entry="article",
+  year = "2009",
+  author = personList(as.person("Frederik de Laender"),
+   as.person("Dick van Oevelen"),as.person("Jack J.J. Middelburg"),
+   as.person("Karline Soetaert")),
+  pages = "2620-2626",
+ title = "Incorporating Ecological Data and Associated Uncertainty in
+  Bioaccumulation Modeling: Methodology Development and Case Study",
+ journal = "Environmental Science and Technology", 
+ volume ="43 No. 7",
+ textVersion =  paste("De Laender, Frederik; Van Oevelen, Dick; 
+ Middelburg, Jack; Soetaert, Karline, 2009. Incorporating ecological data 
+ and associated uncertainty in bioaccumulation modelling: 
+ methodology development and case study. 
+ Environmental Science & Technology 43(7): 2620-2626")
+)
+

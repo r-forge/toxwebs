@@ -14,7 +14,7 @@
     Package: \tab ToxLim\cr
     Type: \tab Package\cr
     Version: \tab 1.0\cr
-    Date: \tab 2009-06-09\cr
+    Date: \tab 2010-04-24\cr
     License: \tab GNU Public License 2 or above\cr
   }
 
@@ -26,9 +26,12 @@
 
   Karline Soetaert
 }
-%\references{
-%% to be filled
-%}
+\references{
+  De Laender, F., Van Oevelen, D., Middelburg, J.J. and Soetaert, K., 2009.
+  Incorporating Ecological Data and Associated Uncertainty in
+  Bioaccumulation Modeling: Methodology Development and Case Study.
+  Environ. Sci. Technol., 2009, 43 (7), 2620-2626.
+}
 \seealso{
  \code{\link{LimOmega}}, the main function
 

@@ -33,7 +33,7 @@ LimOmega (lim=NULL, flowmatrix=NULL,
     If \code{NULL}, then created from the \code{lim}
   }
   \item{INST }{the names of those food web compartments in \code{lim} that are
-    assumed to be in rapid equilibrium with water.
+    assumed to be in rapid (instantaneous) equilibrium with water.
   }
   \item{KINE }{the names of those food web compartments in \code{lim} for which
     uptake/loss kinetics are explicitly modelled.
@@ -56,22 +56,21 @@ LimOmega (lim=NULL, flowmatrix=NULL,
   \item{SS_KINE }{standing stocks of \code{KINE} individuals, in same order as
     in \code{KINE}: [g C/m2].
   }
-  \item{Growth }{growth rates of \code{KINE} individuals, essentially the
-    rate of change of the KINE food web compartments: [/d].
+  \item{Growth }{the rate of change of the \code{KINE} food web compartments: [/d].
   }
-  \item{k }{shape factor; relates rates of uptake/loss of carbon to
-    uptake/loss of chemical: [-].
+  \item{k }{allometric shape factor [-].
   }
   \item{Q }{correction factor; default (1) is for cold blooded,
     use 10 for warm blooded animals: [-].
   }
-  \item{logKow }{10-base logarithm of octanol water partition coefficient:
-    [log10 (L/kg)].
+  \item{logKow }{10-base logarithm of octanol water partition coefficient of
+    the chemical that is accumulating: [log10 (L/kg)].
   }
-  \item{Cwater }{dissolved concentration: [microg/L].
+  \item{Cwater }{dissolved concentration of the chemical that is 
+    accumulating: [microg/L].
   }
   \item{Koc_Kow }{ratio of Koc (organic carbon water partitioning coefficient)
-    over Kow
+    over Kow, of the chemical that is accumulating
   }
   \item{LIPID_INST }{proportion of wet weight that is lipid for the \code{INST}
     food web compartments, either one value or one value per \code{INST}: [-].
@@ -80,7 +79,7 @@ LimOmega (lim=NULL, flowmatrix=NULL,
     food web compartments, either one value or one value per \code{KINE}: [-].
   }
   \item{OC }{proportion of wet weight that is organic carbon in \code{INST}
-    groups: [-].
+    food web compartments: [-].
   }
   \item{rH2O }{water layer diffusion resistance for uptake (loss) of chemical
     from food (through egestion): [\eqn{kg^{-k}d }{d kg^(-k)}].
@@ -100,13 +99,15 @@ LimOmega (lim=NULL, flowmatrix=NULL,
     units [mg (kg lipid)-1 / mg L-1]
   }
   \item{BCF_OC }{The bioconcentration factor predicted BCF after organic
-    carbon normalisation. units [mg (kg OC)-1 / mg L-1]
-    UITLEG OVER WAAROM ALLEMAAL GELIJK
+    carbon normalisation for \code{INST} food web compartments. 
+    units [mg (kg OC)-1 / mg L-1]. Because OC is the 
+    primary absorbing matrix for persistent organic chemicals in \code{INST}, 
+    OC normalised BCFs will be equal among \code{INST} food web compartments. 
   }
 }
 
 \author{
-  Frederik de Laender <f.delaender@nioo.knaw.nl>
+  Frederik de Laender <frederik.delaender@ugent.be>
 
   Karline Soetaert <k.soetaert@nioo.knaw.nl>
 }
@@ -219,16 +220,54 @@ par(mfrow=pm)
 }
 
 \details{
-  Solves the following inverse problem:
 
-  DIT HIER VERVANGEN DOOR HET OMEGA MODEL. LaTeX style maar geen echte latex
-  \deqn{\min(||AAx-BB||^2)}, the approximate equations
-    subject to
-  \deqn{Ex=F}, the mass balances
-  \deqn{Gx>=H}, the constraints.
+  The \code{OMEGA} model (Hendriks et al 2001) estimates the rate of change 
+  of the concentration Ci of a nonbiotransforming chemical in compartment i 
+  by taking into account the chemical uptake rates through feeding and 
+  directly from water, the chemical dilution rate through production and 
+  the rates of egestion with faeces and excretion to water. 
+  
+  While \code{OMEGA} initially was developed to represent food chains, it 
+  was extended with multiple food sources in De Laender et al (2009). 
+  
+  The set of differential equations for all m compartments in a food web was 
+  cast in matrix notation as:
+  \deqn{\frac{dC}{dt}=K_{up,food}\cdot C + K_{up,water}\cdot Cwater 
+   - K_{out+dil} \cdot C}{dC/dt = Kup,food*C + Kup,water*Cwater - Kout+dil*C}
 
 
+  where C is the internal concentration vector, dC/dt is the rate of change 
+  of the internal concentration vector, \eqn{K_{up,food}} is a m * m matrix 
+  with chemical uptake rates through feeding (d-1), containing 
+  elements kup,food,ji on row i, column j, 
+  \eqn{K_{up,water}} the uptake rates directly from water (L kg-1 d-1) 
+  is a column vector with m elements and \eqn{K_{out+dil}} the chemical 
+  dilution rate through production, the rates of egestion with faeces and 
+  excretion to water (d-1), a m * m diagonal matrix with elements 
+  kout,eg,i + kdil,pr,i + kout,water,i.
 
+  Expressions for rate coefficients (kup,food,ji; kup,water,i; kout,eg,i; 
+  kdil,pr,i; kout,water,i) that regulate chemical uptake and loss processes 
+  and how these relate to the carbon flows predicted by the LIM framework can 
+  be found in Table S1 of the Supporting Information (SI) of 
+  De Laender et al (2009). 
+
+
+  Internal concentrations in small particles such as microzooplankton, 
+  phytoplankton, detritus, protozoa, and bacteria (collectively termed 
+  \code{INST} in this package), are assumed to be in rapid equilibrium with 
+  the water phase and may be calculated as 
+    \deqn{C^*_{INST}= Cwater \cdot OC_{INST} \cdot K_{OC}}{cINST* = cwater*OCINST*Koc}
+     
+  where \eqn{C^*_{inst}}{cINST*} denotes the concentration vector for model 
+  compartments that are in instant equilibrium with the surrounding water
+  (microg kg-1 wet weight), \eqn{OC_{inst}}{OCINST} their organic carbon 
+  fraction (-), and \eqn{K_{OC}}{KOC}, the organic carbon-water 
+  partition coefficient (L kg-1), calculated as 0.41KOW, with KOW the octanol-water 
+  partition coefficient.
+
+  For background on inverse modelling, we refer to the documents of the LIM package.
+   
 }
 \seealso{
   \code{LIMlake},  \code{LIMlakeFish},  \code{LIMbarents}, the input food webs.

@@ -1,8 +1,8 @@
 Package: ToxLim
 Version: 1.0
 Title: Incorporating Ecological Data and Associated Uncertainty in Bioaccumulation Modeling
-Author: Frederik De Laender <f.delaender@nioo.knaw.nl> Karline Soetaert <k.soetaert@nioo.knaw.nl>
-Maintainer: Frederik De Laender <f.delaender@nioo.knaw.nl>
+Author: Frederik De Laender <frederik.delaender@ugent.be> Karline Soetaert <k.soetaert@nioo.knaw.nl>
+Maintainer: Frederik De Laender <frederik.delaender@ugent.be>
 Depends: R (>= 2.01), LIM
 Description: Functions that predict internal concentrations of hydrophobic chemicals in aquatic organisms.
 License: GPL (>= 2)

@@ -1,0 +1,417 @@
+\documentclass[article,nojss]{jss}
+\DeclareGraphicsExtensions{.pdf,.eps}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Add-on packages and fonts
+\usepackage{graphicx}
+\usepackage{amsmath}
+
+
+\newcommand{\noun}[1]{\textsc{#1}}
+%% Bold symbol macro for standard LaTeX users
+\providecommand{\boldsymbol}[1]{\mbox{\boldmath $#1$}}
+
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\newcommand{\tl}{\textbf{\textsf{ToxLim }}}
+\newcommand{\R}{\proglang{R}}
+\title{
+  \tl: Incorporating Ecological Data and Uncertainty in 
+   Bioaccumulation Modeling
+}
+\Plaintitle{Incorporating Ecological Data and  
+  Uncertainty in Bioaccumulation Modeling
+}
+
+\Keywords{
+  toxicity, food webs, linear inverse models, \proglang{R}
+}
+
+\Plainkeywords{
+  toxicity, food webs, bioaccumulation, linear inverse models, R
+}
+
+
+\author{Frederik de Laender\\
+Ghent University \\
+Belgium
+\And
+Karline Soetaert\\
+NIOO-CEME\\
+The Netherlands
+}
+
+\Plainauthor{Frederik de Laender and Karline Soetaert}
+
+\Abstract{
+  \R package \tl \citep{ToxLim} contains the OMEGA model to estimate the 
+  estimates the bioaccumulation of a nonbiotransforming chemical through 
+  a food web.
+  
+  It also contains several food web examples.
+   
+  The methodology was described in the paper by \citep{Laender09}.
+  Please cite this paper when using this package.
+  
+}
+
+%% The address of (at least) one author should be given
+%% in the following format:
+\Address{
+Frederik De Laender\\
+Laboratory of Environmental Toxicology and Aquatic Ecology\\
+Ghent University\\
+Plateaustraat 22\\
+9000 Ghent\\ 
+Belgium\\
+E-mail: \email{frederik.delaender@ugent.be}\\
+\\
+  Karline Soetaert\\
+  Centre for Estuarine and Marine Ecology (CEME)\\
+  Netherlands Institute of Ecology (NIOO)\\
+  4401 NT Yerseke, Netherlands\\
+  E-mail: \email{k.soetaert@nioo.knaw.nl}\\
+  URL: \url{http://www.nioo.knaw.nl/users/ksoetaert}\\
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% R/Sweave specific LaTeX commands.
+%% need no \usepackage{Sweave}
+%\VignetteIndexEntry{ToxLim: Incorporating Ecological Data and Associated Uncertainty in Bioaccumulation Modeling}
+%\VignetteKeywords{toxicity, food webs, bioaccumulation, linear inverse models}
+%\VignettePackage{ToxLim}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Begin of the document
+\begin{document}
+\SweaveOpts{engine=R,eps=FALSE}
+\SweaveOpts{keep.source=TRUE}
+
+<<preliminaries,echo=FALSE,results=hide>>=
+library("ToxLim")
+options(prompt = "> ")
+options(width=75)
+@
+
+\maketitle
+
+\section{Introduction}
+
+\R-package \tl, accompanying the paper \citep{Laender09} models the 
+bioaccumulation of a nonbiotransforming chemical through a food web. 
+
+It contains an implementation of the \code{OMEGA} model \citep{Hendriks01},
+as extended for multiple food sources by \citep{Laender09}, and three
+food web examples: the pelagic food web of the Barents Sea, and two food
+webs of freshwater (lake) enclosures.
+
+For background on inverse modelling, we refer to the documents of the 
+\pkg{LIM} package \citep{LIM}, or the \pkg{limSolve} package \citep{limSolve}.
+
+Also see \citep{xsample} for running a constrained monte carlo.
+
+The \pkg{LIM} package also contains many other food web examples.
+\clearpage
+
+\section{The example food webs}
+Three food webs are included in the package.
+
+\subsection{LIMbarents}
+The Barents Sea food web was published in \citep{LaenderMEPS} and the 
+bioaccumulation model applied to it in \citep{LaenderEST}.
+
+It consists of the linear inverse model specification for the Southern 
+Barents Sea. 
+
+The food web compartments for the area are dissolved organic carbon (DOC), 
+detritus, bacteria, heterotrophic flagellates and ciliates, 
+phytoplankton (pico- and nanoplankton, diatoms and Phaeocystis sp.), 
+mesozooplankton (copepods), macrozooplankton (krill and chaetognaths), 
+cod (Gadus morhua), herring (Clupea harengus) and capelin (Mallotus villosus).
+Adult cod (> 3 yrs) and young cod (< 3 yrs) were considered as two different 
+populations.  
+
+First the food web is solved:
+<<label=Barents,include=FALSE>>=
+plotweb(Flowmatrix(LIMbarents),main="Barents Sea Food Web",
+  sub="mgC/m2/day")
+@
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}
+\begin{center}
+<<label=Barents,fig=TRUE,echo=FALSE>>=
+<<Barents>>
+@
+\end{center}
+\caption{The Barents Sea food web}
+\label{fig:b1}
+\end{figure}
+
+Then the ranges of flows and varialbes are calculated and plotted:
+
+<<label=Barents2,include=FALSE>>=
+pm <- par(mfrow=c(1,2))
+Plotranges(LIMbarents,lab.cex=0.7,xlab="mgC/m2/d",
+   main="Flows")
+# 
+Plotranges(LIMbarents,type="V",lab.cex=0.7,xlab="mgC/m2/d",
+   main="variables")
+mtext(outer=TRUE,"Southern Barents Sea food web",side=3,line=-1,cex=1.5)
+par(mfrow=pm)
+@
+
+\setkeys{Gin}{width=1.0\textwidth}
+\begin{figure}
+\begin{center}
+<<label=Barents2,fig=TRUE,echo=FALSE,width = 8.5, height = 11>>=
+<<Barents2>>
+@
+\end{center}
+\caption{The Barents Sea food web ranges of flows and variables}
+\label{fig:b2}
+\end{figure}
+\clearpage
+\subsection{LIMlake and LIMlakeFish}
+This includes the Linear inverse model specification for two freshwater lake enclosures
+  (Lac Croche, Canada), \citep{Ridal}, used as demonstration example in \citep{Laender09}.
+
+  Food web compositions in the enclosures were manipulated by additions 
+  of planktivorous fish and/or nutrients giving four types of food webs: 
+  planktonic, planktonic with nutrient addition, planktonic with planktivorous 
+  fish, and planktonic with planktivorous fish and nutrient additions. 
+  The trophic links in the mass-balances of each LIM are identical, except 
+  that the fish compartment is only present in F and FN. 
+  
+  \code{LIMlake} is the linear inverse model for the food web without fish 
+  and without nutrient addition. 
+  \code{LIMlakeFish} has fish, but also no nutrients were added.
+
+First the food web is solved:
+<<label=Limlake,include=FALSE>>=
+pm <- par(mfrow=c(1,2))
+lake <- Flowmatrix(LIMlake)
+plotweb(lake,main="Lake enclosure food web",sub="mgC/m2/day")
+
+plotweb(Flowmatrix(LIMlakeFish),main="Lake enclosure food web + FISH",
+  sub="mgC/m2/day")
+@
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}
+\begin{center}
+<<label=Limlake,fig=TRUE,echo=FALSE>>=
+<<Limlake>>
+@
+\end{center}
+\caption{The Limlake food web with and without fish}
+\label{fig:l1}
+\end{figure}
+
+Then the ranges of flows and varialbes are calculated and plotted:
+
+<<label=Limlake2,include=FALSE>>=
+# ranges of flows
+Plotranges(LIMlake,lab.cex=0.7,xlab="mgC/m2/d",
+   main="Flows")
+# ranges of variables
+Plotranges(LIMlake,type="V",lab.cex=0.7,xlab="mgC/m2/d",
+   main="variables")
+mtext(outer=TRUE,"Lake enclosure food web",side=3,line=-1,cex=1.5)
+par(mfrow=pm)
+@
+
+\setkeys{Gin}{width=1.0\textwidth}
+\begin{figure}
+\begin{center}
+<<label=Limlake2,fig=TRUE,echo=FALSE,width = 8.5, height = 11>>=
+<<Limlake2>>
+@
+\end{center}
+\caption{The Limlake food web ranges of flows and variables}
+\label{fig:l2}
+\end{figure}
+
+\clearpage
+\section{The LimOmega function}
+
+  The \code{OMEGA} model \citep{Hendriks01} estimates the rate of change 
+  of the concentration Ci of a nonbiotransforming chemical in compartment i 
+  by taking into account the chemical uptake rates through feeding and 
+  directly from water, the chemical dilution rate through production and 
+  the rates of egestion with faeces and excretion to water. 
+  
+  While \code{OMEGA} initially was developed to represent food chains, it 
+  was extended with multiple food sources in \citep{Laender09}. 
+  
+  The set of differential equations for all m compartments in a food web was 
+  cast in matrix notation as:
+  
+  \begin{eqnarray*}
+   \frac{dC}{dt}=K_{up,food}\cdot C + K_{up,water}\cdot Cwater 
+   - K_{out+dil} \cdot C
+  \end{eqnarray*}
+  where $C$ is the internal concentration vector, $\frac{dC}{dt}$ is 
+  the rate of change of the internal concentration vector, $K_{up,food}$ is 
+  a m * m matrix with chemical uptake rates through feeding (d-1), containing 
+  elements $k_{up,food,ji}$ on row i, column j, 
+  $K_{up,water}$ the uptake rates directly from water ($L~kg^{-1}~ d^{-1}$) 
+  is a column vector with m elements and $K_{out+dil}$ the chemical 
+  dilution rate through production, the rates of egestion with faeces and 
+  excretion to water ($d^{-1}$), a m * m diagonal matrix with elements 
+  $k_{out,eg,i} + k_{dil,pr,i} + k_{out,water,i}$.
+
+  Expressions for rate coefficients ($k_{up,food,ji}$; $k_{up,water,i}$; 
+  $k_{out,eg,i}$; $k_{dil,pr,i}$; $k_{out,water,i}$) that regulate chemical 
+  uptake and loss processes 
+  and how these relate to the carbon flows predicted by the \pkg{LIM} framework can 
+  be found in Table S1 of the Supporting Information (SI) of 
+  \citep{Laender09}. 
+
+
+  Internal concentrations in small particles such as microzooplankton, 
+  phytoplankton, detritus, protozoa, and bacteria (collectively termed 
+  \code{INST} in this package), are assumed to be in rapid equilibrium with 
+  the water phase and may be calculated as 
+   \begin{eqnarray*}
+   C^*_{INST}= Cwater \cdot OC_{INST} \cdot K_{OC}
+   \end{eqnarray*}
+   
+     
+  where $C^*_{inst}$ denotes the concentration vector for model 
+  compartments that are in instant equilibrium with the surrounding water
+  (microg kg-1 wet weight), $OC_{inst}$ their organic carbon 
+  fraction (-), and $K_{OC}$, the organic carbon-water 
+  partition coefficient ($L~ kg^{-1}$), calculated as 0.41KOW, with KOW the octanol-water 
+  partition coefficient.
+\subsection{The bioaccumulation model applied to the three example food webs}  
+The lake food web:
+<<>>=
+LimOmega (lim = LIMlake,
+          INST=c("DET","DOC","BAC","PHY","NAN","CIL","MIZ"),
+          KINE= "MEZ", EXPO=c("sed","gr"),
+          DOC="DOC", DET="DET", DIC="dic",
+          WW_KINE=7.596535e-08, SS_KINE=0.079508)
+@
+The lake food web with fish:
+<<>>=
+LimOmega (lim = LIMlakeFish,
+          INST=c("DET","DOC","BAC","PHY","NAN","CIL","MIZ"),
+          KINE=c("MEZ","FIS"), EXPO=c("sed","gr"),
+          DOC="DOC", DET="DET", DIC="dic",
+          WW_KINE=c(1.85e-08,1.7e-3),
+          SS_KINE=c(0.00514800,0.26))
+@
+The Barents Sea example:
+<<>>=
+LimOmega (lim = LIMbarents,
+          INST=c("DIA","PHA","AUT","CIL","HNA","DET","BAC"),
+          KINE=c("COP","CHA","KRI","CAP","COD","YCO","HER"),
+          EXPO=c("SED","GRA","GRO"),
+          DOC="DOC", DET="DET", DIC="DIC",
+          WW_KINE=c(0.000001,8e-05,0.00006,10e-3,3,1,20e-3),
+          LIPID_KINE=c(0.01,0.01,0.01,0.03,0.03,0.03,0.03),
+          LIPID_INST=0.04,
+          SS_KINE=c(1.79,0.6965,0.003,0.38,0.053,0.006,0.055))
+@
+\subsection{A monte carlo run on food web structure}  
+
+First we take \code{niter} random samples from all possible solutions using a
+Markow Chain Monte Carlo approach \citep{xsample}
+<<>>=
+  X0       <- Lsei(LIMlake)$X
+  niter <- 50
+  SolXS    <- Xsample(LIMlake, iter=niter, type = "mirror",
+                      jmp=NULL, x0=X0, fulloutput = FALSE)
+
+  BAFlc_all  <- NULL
+@
+Then, for each of these samples the flowmatrix is created and LimOmega applied:
+<<>>=
+  for (i in 1:niter) {
+   flowmat <- Flowmatrix(LIMlake, SolXS[i,])
+   LO<- LimOmega (flowmatrix=flowmat,
+          INST=c("DET","DOC","BAC","PHY","NAN","CIL","MIZ"),
+          KINE=c("MEZ"), EXPO=c("sed","gr"),
+          DOC="DOC", DET="DET", DIC="dic",
+          WW_KINE=7.596535e-08, SS_KINE=0.079508,
+          Growth=0, k=0.25, Q=1)
+
+   BAFlc_all <- c(BAFlc_all,LO$BAF_LC)
+  }
+@
+Show results
+<<label=BAFlc_all,include=FALSE>>=
+hist(BAFlc_all)
+@
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}
+\begin{center}
+<<label=BAFlc_all,fig=TRUE,echo=FALSE>>=
+<<BAFlc_all>>
+@
+\end{center}
+\caption{The LimOmega model, applied 50 times, to the lake food web}
+\label{fig:f1}
+\end{figure}
+
+Now the same food web structure is used with different chemical parameters:
+<<>>=
+  niter <- 100
+@  
+We create a normally distributed sample of log kow:
+<<>>=
+  lkw <- rnorm(niter,mean=6,sd=0.4)
+
+  BAFlc_all  <- NULL
+  BCFoc_all  <- NULL
+@  
+We also use the \code{LIMlake} foodweb:
+<<>>=
+  flowmat <- Flowmatrix(LIMlake)
+@
+and run the \code{LimOmega} model for each value of log kow:
+<<>>=
+  for (i in 1:niter) {
+   LO<- LimOmega (flowmatrix=flowmat,
+          INST=c("DET","DOC","BAC","PHY","NAN","CIL","MIZ"),
+          KINE=c("MEZ"), EXPO=c("sed","gr"),
+          DOC="DOC", DET="DET", DIC="dic",
+          WW_KINE=7.596535e-08, SS_KINE=0.079508,
+          Growth=0, k=0.25, Q=1, logKow = lkw[i])
+
+   BAFlc_all <- c(BAFlc_all,LO$BAF_LC)
+   BCFoc_all <- c(BCFoc_all,LO$BCF_OC[1])
+  }
+@
+Finally, we plot the results:
+<<label=BAFlc_2,include=FALSE>>=
+pm <- par(mfrow=c(2,2))
+hist(BAFlc_all,main="BAF_LC")
+plot(lkw,BAFlc_all,xlab="log Kow",ylab="BAF_LC")
+hist(BCFoc_all,main="BCF_OC")
+plot(lkw,BCFoc_all,xlab="log Kow",ylab="BCF_OC")
+par(mfrow=pm)
+@
+
+\setkeys{Gin}{width=0.8\textwidth}
+\begin{figure}
+\begin{center}
+<<label=BAFlc_2,fig=TRUE,echo=FALSE>>=
+<<BAFlc_2>>
+@
+\end{center}
+\caption{The LimOmega model, applied with different values of log kow}
+\label{fig:f2}
+\end{figure}
+
+
+\section{Finally}
+
+This vignette was made with Sweave \citep{Leisch02}.
+
+\clearpage
+\bibliography{vignettes}
+
+\end{document}
