@@ -134,7 +134,7 @@ populations.
 First the food web is solved:
 <<label=Barents,include=FALSE>>=
 plotweb(Flowmatrix(LIMbarents),main="Barents Sea Food Web",
-  sub="mgC/m2/day")
+  sub="gC/m2/day")
 @
 
 \setkeys{Gin}{width=0.8\textwidth}
@@ -148,14 +148,14 @@ plotweb(Flowmatrix(LIMbarents),main="Barents Sea Food Web",
 \label{fig:b1}
 \end{figure}
 
-Then the ranges of flows and varialbes are calculated and plotted:
+Then the ranges of flows and variables are calculated and plotted:
 
 <<label=Barents2,include=FALSE>>=
 pm <- par(mfrow=c(1,2))
-Plotranges(LIMbarents,lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMbarents,lab.cex=0.7,xlab="gC/m2/d",
    main="Flows")
 # 
-Plotranges(LIMbarents,type="V",lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMbarents,type="V",lab.cex=0.7,xlab="gC/m2/d",
    main="variables")
 mtext(outer=TRUE,"Southern Barents Sea food web",side=3,line=-1,cex=1.5)
 par(mfrow=pm)
@@ -191,10 +191,10 @@ First the food web is solved:
 <<label=Limlake,include=FALSE>>=
 pm <- par(mfrow=c(1,2))
 lake <- Flowmatrix(LIMlake)
-plotweb(lake,main="Lake enclosure food web",sub="mgC/m2/day")
+plotweb(lake,main="Lake enclosure food web",sub="gC/m2/day")
 
 plotweb(Flowmatrix(LIMlakeFish),main="Lake enclosure food web + FISH",
-  sub="mgC/m2/day")
+  sub="gC/m2/day")
 @
 
 \setkeys{Gin}{width=0.8\textwidth}
@@ -208,14 +208,14 @@ plotweb(Flowmatrix(LIMlakeFish),main="Lake enclosure food web + FISH",
 \label{fig:l1}
 \end{figure}
 
-Then the ranges of flows and varialbes are calculated and plotted:
+Then the ranges of flows and variables are calculated and plotted:
 
 <<label=Limlake2,include=FALSE>>=
 # ranges of flows
-Plotranges(LIMlake,lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMlake,lab.cex=0.7,xlab="gC/m2/d",
    main="Flows")
 # ranges of variables
-Plotranges(LIMlake,type="V",lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMlake,type="V",lab.cex=0.7,xlab="gC/m2/d",
    main="variables")
 mtext(outer=TRUE,"Lake enclosure food web",side=3,line=-1,cex=1.5)
 par(mfrow=pm)
@@ -285,7 +285,10 @@ par(mfrow=pm)
   partition coefficient ($L~ kg^{-1}$), calculated as 0.41KOW, with KOW the octanol-water 
   partition coefficient.
 \subsection{The bioaccumulation model applied to the three example food webs}  
-The lake food web:
+First we apply the bioaccumulation model to the three food webs, and using 
+the default values (e.g. a \code{logKoW} of 6):
+
+The lake food web,
 <<>>=
 LimOmega (lim = LIMlake,
           INST=c("DET","DOC","BAC","PHY","NAN","CIL","MIZ"),

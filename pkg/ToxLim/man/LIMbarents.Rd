@@ -41,14 +41,14 @@ LIMbarents
 \examples{
 
 plotweb(Flowmatrix(LIMbarents),main="Barents Sea Food Web",
-  sub="mgC/m2/day")
+  sub="gC/m2/day")
 
 pm <- par(mfrow=c(1,2))
 # ranges of flows
-Plotranges(LIMbarents,lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMbarents,lab.cex=0.7,xlab="gC/m2/d",
    main="Flows")
 # ranges of variables
-Plotranges(LIMbarents,type="V",lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMbarents,type="V",lab.cex=0.7,xlab="gC/m2/d",
    main="variables")
 mtext(outer=TRUE,"Southern Barents Sea food web",side=3,line=-1,cex=1.5)
 par(mfrow=pm)

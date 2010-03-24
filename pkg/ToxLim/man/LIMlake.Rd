@@ -49,16 +49,16 @@ LIMlakeFish
 \examples{
 pm <- par(mfrow=c(1,2))
 lake <- Flowmatrix(LIMlake)
-plotweb(lake,main="Lake enclosure food web",sub="mgC/m2/day")
+plotweb(lake,main="Lake enclosure food web",sub="gC/m2/day")
 
 plotweb(Flowmatrix(LIMlakeFish),main="Lake enclosure food web + FISH",
-  sub="mgC/m2/day")
+  sub="gC/m2/day")
 
 # ranges of flows
-Plotranges(LIMlake,lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMlake,lab.cex=0.7,xlab="gC/m2/d",
    main="Flows")
 # ranges of variables
-Plotranges(LIMlake,type="V",lab.cex=0.7,xlab="mgC/m2/d",
+Plotranges(LIMlake,type="V",lab.cex=0.7,xlab="gC/m2/d",
    main="variables")
 mtext(outer=TRUE,"Lake enclosure food web",side=3,line=-1,cex=1.5)
 par(mfrow=pm)
