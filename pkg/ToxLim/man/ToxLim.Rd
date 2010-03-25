@@ -3,7 +3,7 @@
 \alias{ToxLim}
 \docType{package}
 \title{
-  Bioaccumulation modelling using LIM
+  Bioaccumulation Modelling Using LIM
 }
 \description{
   Incorporating Ecological Data and Associated Uncertainty in

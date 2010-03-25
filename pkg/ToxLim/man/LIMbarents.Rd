@@ -2,7 +2,7 @@
 \alias{LIMbarents}
 \docType{data}
 \title{
-  Linear Inverse Model input for the Barents Sea
+  Linear Inverse Model Input For the Barents Sea
 }
 
 \description{

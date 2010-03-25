@@ -1,15 +1,19 @@
 \name{LimOmega}
 \alias{LimOmega}
 \title{
-  LIM OMEGA bioaccumulation model
+  LIM OMEGA Bioaccumulation Model
 }
 \description{
   Solves a LIMOMEGA model
 
-  Uncertainty ranges of specific ingestion and production rates, and of assimilation efficiency are estimated with a LIM, 
-  and used to set Kup,food and Kout+dil in OMEGA, as explained in detail in De Laender et al (2009). 
-  If the LIM is solved using the Markow Chain Monte Carlo approach developed by Van den Meersche et al (2009), 
-  uncertainty ranges for Kup,food and Kout+dil and thus for the internal concentrations can be estimated.
+  Uncertainty ranges of specific ingestion and production rates, and of 
+  assimilation efficiency are estimated with a LIM, 
+  and used to set Kup,food and Kout+dil in OMEGA, as explained in detail 
+  in De Laender et al (2009). 
+  If the LIM is solved using the Markow Chain Monte Carlo approach developed 
+  by Van den Meersche et al (2009), 
+  uncertainty ranges for Kup,food and Kout+dil and thus for the internal 
+  concentrations can be estimated.
 }
 
 \usage{

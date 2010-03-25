@@ -3,8 +3,8 @@
 \alias{LIMlakeFish}
 \docType{data}
 \title{
-  Linear Inverse Model input for two
-  Experimental freshwater lake enclosure (Lac Croche, Canada)
+  Linear Inverse Model Input For Two
+  Experimental Freshwater Lake Enclosure (Lac Croche, Canada)
 }
 
 \description{
