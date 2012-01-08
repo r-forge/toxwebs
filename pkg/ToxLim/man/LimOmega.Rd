@@ -113,7 +113,7 @@ LimOmega (lim=NULL, flowmatrix=NULL,
 \author{
   Frederik de Laender <frederik.delaender@ugent.be>
 
-  Karline Soetaert <k.soetaert@nioo.knaw.nl>
+  Karline Soetaert <k.soetaert@nioz.nl>
 }
 \examples{
 
