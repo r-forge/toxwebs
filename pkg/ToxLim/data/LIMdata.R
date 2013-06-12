@@ -1,1 +1,0 @@
-load("LIMdata.Rdata")
